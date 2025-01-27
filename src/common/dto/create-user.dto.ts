@@ -1,5 +1,6 @@
 import { IsString, IsNotEmpty } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import * as bcrypt from 'bcryptjs';
 
 export class CreateUserDto {
   @ApiProperty({ description: 'The username of the user' })
@@ -19,4 +20,9 @@ export class CreateUserDto {
   @ApiProperty({ description: 'The zodiac sign of the user' })
   @IsString()
   zodiac!: string;
+
+  async hashPassword(): Promise<void> {
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+  }
 }

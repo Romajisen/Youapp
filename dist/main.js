@@ -385,7 +385,7 @@ let AuthService = class AuthService {
     async register(createUserDto) {
         const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
         const user = Object.assign(Object.assign({}, createUserDto), { password: hashedPassword });
-        return this.userService.create(user);
+        return this.userService.create(createUserDto);
     }
 };
 AuthService = __decorate([
@@ -428,14 +428,14 @@ let UserService = class UserService {
         this.jwtService = jwtService;
     }
     async create(createUserDto) {
-        const createdUser = new this.userModel(createUserDto);
+        const createdUser = new this.userModel(await createUserDto.hashPassword());
         return createdUser.save();
     }
     async findOne(username) {
         return this.userModel.findOne({ username }).exec();
     }
     async update(username, updateUserDto) {
-        return this.userModel.findOneAndUpdate({ username }, updateUserDto, { new: true }).exec();
+        return this.userModel.findOneAndUpdate({ username }, updateUserDto.hashPassword(), { new: true }).exec();
     }
     async getProfile(username) {
         const user = await this.findOne(username);
@@ -747,7 +747,12 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CreateUserDto = void 0;
 const class_validator_1 = __webpack_require__(22);
 const swagger_1 = __webpack_require__(20);
+const bcrypt = __webpack_require__(15);
 class CreateUserDto {
+    async hashPassword() {
+        const salt = await bcrypt.genSalt(10);
+        this.password = await bcrypt.hash(this.password, salt);
+    }
 }
 __decorate([
     (0, swagger_1.ApiProperty)({ description: 'The username of the user' }),
@@ -1513,7 +1518,7 @@ exports.corsConfig = {
 /******/ 	
 /******/ 	/* webpack/runtime/getFullHash */
 /******/ 	(() => {
-/******/ 		__webpack_require__.h = () => ("8ac07a6c8fbc1794d70f")
+/******/ 		__webpack_require__.h = () => ("96d853c4d07f3fd77ff0")
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */

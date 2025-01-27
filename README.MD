@@ -14,14 +14,14 @@ This is the backend for the YouApp application, built with Nest.js, MongoDB, and
 
 1. Clone the repository:
 
-   ```bash
-   git clone https://github.com/your-username/youapp-backend.git
+   ```
+   git clone https://github.com/Romajisen/Youapp.git
    cd youapp-backend
    ```
 
 2. Install the dependencies:
 
-   ```bash
+   ```
    npm install
    ```
 
@@ -36,13 +36,13 @@ This is the backend for the YouApp application, built with Nest.js, MongoDB, and
 
 1. Start the MongoDB server:
 
-   ```bash
+   ```
    mongod
    ```
 
 2. Start the Nest.js application:
 
-   ```bash
+   ```
    npm run start:dev
    ```
 
@@ -56,13 +56,13 @@ The API documentation is available at `http://localhost:3000/api`.
 
 1. Run unit tests:
 
-   ```bash
+   ```
    npm run test
    ```
 
 2. Run end-to-end tests:
 
-   ```bash
+   ```
    npm run test:e2e
    ```
 

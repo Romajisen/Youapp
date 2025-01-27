@@ -15,7 +15,7 @@ export class UserService {
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    const createdUser = new this.userModel(createUserDto);
+    const createdUser = new this.userModel(await createUserDto.hashPassword());
     return createdUser.save();
   }
 
@@ -24,7 +24,7 @@ export class UserService {
   }
 
   async update(username: string, updateUserDto: CreateUserDto): Promise<User | null> {
-    return this.userModel.findOneAndUpdate({ username }, updateUserDto, { new: true }).exec();
+    return this.userModel.findOneAndUpdate({ username }, updateUserDto.hashPassword(), { new: true }).exec();
   }
 
   async getProfile(username: string): Promise<User | null> {
